@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("OpenStateClientLib")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("OpenStates GraphQL library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Grenadier Graphics")]
 [assembly: AssemblyProduct("OpenStateClientLib")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
