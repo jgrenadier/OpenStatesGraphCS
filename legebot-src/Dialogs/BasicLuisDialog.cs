@@ -208,7 +208,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                 }
             }
 
-            BillNumber += NumToShow;
+            BillNumber += NumToShow; 
             if (BillNumber < arr.Count)
             {
                 Continuity.SetSavedBillNumber(context, BillNumber);
