@@ -70,11 +70,6 @@ namespace Microsoft.Bot.Sample.LuisBot
         {
         }
 
-   
-
-
-
-
         [LuisIntent("Find")]
         public async Task FindIntent(IDialogContext context, LuisResult result)
         {
@@ -139,8 +134,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                         }
                     }
                     else
-                    {
-                        // context.ConversationData.RemoveValue(Continuity.KeyBillResults);
+                    {                        
                         Continuity.RemoveSavedBills(context);
                     }
 
@@ -154,11 +148,18 @@ namespace Microsoft.Bot.Sample.LuisBot
         }
 
   
-
+        /// <summary>
+        /// If the number of bills to display is large, just show some of them
+        /// and allow the user to see more of them by typing "More".
+        /// Note: This kind of dialog sequence could be applied to other displays
+        /// than just bills and the pattern of this code could be generalized.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
         [LuisIntent("More")]
         public async Task MoreIntent(IDialogContext context, LuisResult result)
-        {
-            // int BillNumber = context.ConversationData.GetValue<int>(KeyBillNumber);
+        {           
             int BillNumber = Continuity.GetSavedBillNumber(context);
             if (BillNumber < 0)
             {
@@ -191,17 +192,10 @@ namespace Microsoft.Bot.Sample.LuisBot
             {
                 NumToShow = Continuity.NumBillsToShowInGroup;
             }
-            // await context.PostAsync($"Bill Number = {BillNumber} NumTotal = {NumLeft} NumToShow = {NumToShow}");
-            // context.Wait(MessageReceived);
+ 
 
             for (int i = BillNumber; i < BillNumber + NumToShow; i++)
-            {
-                // bool MoreToDisplay = (i >= (Continuity.NumBillsToShowInGroup - 1));
-                if (State != null)
-                {
-                    // await context.PostAsync($"i = {i} MoreToDisplay = {MoreToDisplay} State = {State}");
-                }
-                // context.Wait(MessageReceived);
+            {                
                 if (arr != null && i < arr.Count) 
                 {
                     await BillDialogUtil.DisplayOneBill(context, arr[i], State, CurVoter); 
@@ -219,8 +213,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                 Continuity.SetSavedBills(context, null);
                 Continuity.SetSavedBillNumber(context, -1);
             }
-            // await context.PostAsync("done.");
-            // context.Wait(MessageReceived);
+  
         }
 
 
@@ -232,7 +225,7 @@ namespace Microsoft.Bot.Sample.LuisBot
 
             if (state != null && state != "")
             {
-                // context.ConversationData.SetValue(Continuity.KeyState, state);
+                
                 Continuity.SetSavedState(context, state);
             }
             await context.PostAsync("All hail the great state of " + state + ".");
@@ -254,7 +247,7 @@ namespace Microsoft.Bot.Sample.LuisBot
 
             OpenStateClientLib.OpenStateClient cli = new OpenStateClientLib.OpenStateClient();
 
-            // string Summary = await cli.SummarizeStateLeges(State);
+            
             OpenStateClientLib.LegeSet lset = await cli.GetStatePeopleAsync(State);
             if (lset == null)
             {
@@ -272,10 +265,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             }
 
             if (SearchTerm != null || SearchTerm != "")
-            {
-                // await context.PostAsync($"a. SearchTerm {SearchTerm}");
-                // context.Wait(MessageReceived);
-              
+            {              
                 Continuity.SetSavedLegislator(context, SearchTerm);
                 string Msg;
                 int NumFound = lset.FindLegislator(SearchTerm, out Msg);
@@ -302,15 +292,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                     return;
                 }
             }
-            //string state = BillDialogUtil.GetEntityState(result);
-
-            //if (state != null && state != "")
-            //{
-            //    // context.ConversationData.SetValue(Continuity.KeyState, state);
-            //    Continuity.SetSavedState(context, state);
-            //}
-            //await context.PostAsync("All hail the great state of " + state + ".");
-            //context.Wait(MessageReceived);
+ 
         }
 
 
