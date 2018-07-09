@@ -117,7 +117,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                     {
                         CurrentBill = ii;
                         MoreToDisplay = (ii >= (arr.Count - 1));
-                        await BillDialogUtil.DisplayOneBill(context, arr[ii], false, CurState, CurVoter);
+                        await BillDialogUtil.DisplayOneBill(context, arr[ii], CurState, CurVoter);
                     }
                     if (MoreToDisplay)
                     {                      
@@ -204,7 +204,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                 // context.Wait(MessageReceived);
                 if (arr != null && i < arr.Count) 
                 {
-                    await BillDialogUtil.DisplayOneBill(context, arr[i], false, State, CurVoter); 
+                    await BillDialogUtil.DisplayOneBill(context, arr[i], State, CurVoter); 
                 }
             }
 

@@ -310,82 +310,18 @@ namespace LuisBot.Dialogs
             return Message;
         }
 
-        public static async Task DisplayOneBill(IDialogContext context, Newtonsoft.Json.Linq.JToken bill, bool moretodisplay, string curstate, string curvoter)
+        /// <summary>
+        /// display text that represents a bill to the bot
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="bill"></param>
+        /// <param name="curstate"></param>
+        /// <param name="curvoter"></param>
+        /// <returns></returns>
+        public static async Task DisplayOneBill(IDialogContext context, Newtonsoft.Json.Linq.JToken bill, string curstate, string curvoter)
         {
-            //try
-            //{
-
-            //    string Msg = "";
-            //    if (curstate == null)
-            //    {
-            //        return;
-            //    }
-            //    if (bill == null)
-            //    {
-            //        await context.PostAsync("bill is null.");
-            //    }
-            //    else
-            //    {
-            //        // await context.PostAsync(bill.ToString());
-            //    }
-            //    Msg += (curstate + " Bill " + bill["identifier"].ToString());
-            //    Msg += (" (" + bill["title"].ToString() + ")\n");
-
-
-            //    // Msg += ("updatedAt = " + bill["updatedAt"] + "\n");
-            //    // Msg += ("subject = " + bill["subject"].ToString() + "\n");
-
-            //    //Newtonsoft.Json.Linq.JArray Votes = bill["votes"]["edges"] as Newtonsoft.Json.Linq.JArray;
-            //    //int VoteCount = 0;
-            //    //if (Votes != null)
-            //    //{
-            //    //    VoteCount = Votes.Count;
-            //    //}
-            //    //if (VoteCount > 0)
-            //    //{
-            //    //    Msg += ("votes = " + Votes.ToString() + "\n");
-            //    //}
-            //    Newtonsoft.Json.Linq.JArray Documents = bill["documents"] as Newtonsoft.Json.Linq.JArray;
-
-            //    int DocCount = 0;
-            //    if (Documents != null)
-            //    {
-            //        DocCount = Documents.Count;
-            //    }
-
-            //    if (DocCount > 0)
-            //    {
-            //        //  bill["documents"][0]["links"][0]["url"]
-            //        // Msg += ("documents = " + Documents.ToString() + "\n");
-            //        for (int j = 0; j < DocCount; j++)
-            //        {
-            //            Newtonsoft.Json.Linq.JArray links = Documents[j]["links"] as Newtonsoft.Json.Linq.JArray;
-            //            int LinkCount = links.Count;
-            //            for (int k = 0; k < LinkCount; k++)
-            //            {
-            //                string Url = links[k]["url"].ToString();
-            //                Msg += ("document: " + Url + "\n");
-            //            }
-
-            //        }
-            //    }
-
-            //    if (moretodisplay)
-            //    {
-            //        Msg += "Type 'More' to see more bills.\n";
-            //    }
-            //    else
-            //    {
-            //        // Msg += "All bills displayed.\n";
-            //    }
-            //    await context.PostAsync(Msg);
-            //    // RecentContext.Wait(MessageReceived);
-            //}
-            //catch (System.Exception xyzzy)
-            //{
-            //    await context.PostAsync(xyzzy.Message);
-            //}
-            string Msg = OpenStateClient.DisplayOneBill(bill, moretodisplay, curstate, curvoter);
+  
+            string Msg = OpenStateClient.DisplayOneBill(bill, curstate, curvoter);
             await context.PostAsync(Msg);
             // RecentContext.Wait(MessageReceived);
 

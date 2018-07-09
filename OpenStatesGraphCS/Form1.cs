@@ -71,7 +71,7 @@ namespace OpenStatesGraphCS
 
             //    }
             //}
-            string Msg = OpenStateClientLib.OpenStateClient.DisplayOneBill(bill, false, "Texas", "");
+            string Msg = OpenStateClientLib.OpenStateClient.DisplayOneBill(bill, "Texas", "");
             rtbBills.AppendText(Msg);
         }
 

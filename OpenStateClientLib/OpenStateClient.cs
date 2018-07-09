@@ -1157,7 +1157,7 @@ query StateLeges {
         }
 
 
-        public static string DisplayOneBill(Newtonsoft.Json.Linq.JToken bill, bool moretodisplay, string curstate, string curvoter)
+        public static string DisplayOneBill(Newtonsoft.Json.Linq.JToken bill, string curstate, string curvoter)
         {
             string Msg = "";
             string CurVoterL;
@@ -1247,14 +1247,7 @@ query StateLeges {
                     }
                 }
 
-                if (moretodisplay)
-                {
-                    Msg += "Type 'More' to see more bills.\n";
-                }
-                else
-                {
-                    // Msg += "All bills displayed.\n";
-                }
+  
                 return Msg;               
             }
             catch (System.Exception xyzzy)
