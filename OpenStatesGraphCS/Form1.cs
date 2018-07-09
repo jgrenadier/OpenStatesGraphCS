@@ -17,12 +17,7 @@ namespace OpenStatesGraphCS
             InitializeComponent();
         }
 
-        //private void ExtraBillsAction(GraphQL.Common.Response.GraphQLResponse resp)
-        //{
-        //    string s = resp.Data.ToString();
-        //    rtbResults.AppendText(s);
-        //    rtbResults.AppendText("++++++++++++++++++++++++");
-        //}
+   
 
         private void ExtraGuiAction(Newtonsoft.Json.Linq.JArray resp)
         {
@@ -33,44 +28,7 @@ namespace OpenStatesGraphCS
 
         private void ExtraGuiActionBill(Newtonsoft.Json.Linq.JToken bill)
         {
-            //this.rtbBills.AppendText("identifier = " + bill["identifier"].ToString() + "\n");
-            //this.rtbBills.AppendText("title = " + bill["title"].ToString() + "\n");
-
-            //this.rtbBills.AppendText("updatedAt = " + bill["updatedAt"] + "\n");
-            //this.rtbBills.AppendText("subject = " + bill["subject"].ToString() + "\n");
-
-            //Newtonsoft.Json.Linq.JArray Votes = bill["votes"]["edges"] as Newtonsoft.Json.Linq.JArray;
-            //int VoteCount = 0;
-            //if (Votes != null)
-            //{
-            //    VoteCount = Votes.Count;
-            //}
-            //if (VoteCount > 0)
-            //{
-            //    this.rtbBills.AppendText("votes = " + Votes.ToString() + "\n");
-            //}
-            //Newtonsoft.Json.Linq.JArray Documents = bill["documents"] as Newtonsoft.Json.Linq.JArray;
-            //int DocCount = 0;
-            //if (Documents != null)
-            //{
-            //    DocCount = Documents.Count;
-            //}
-            //if (DocCount > 0)   
-            //{
-            //    //  bill["documents"][0]["links"][0]["url"]
-            //    this.rtbBills.AppendText("documents = " + Documents.ToString() + "\n");
-            //    for (int j = 0; j < DocCount; j++)
-            //    {
-            //        Newtonsoft.Json.Linq.JArray links = Documents[j]["links"] as Newtonsoft.Json.Linq.JArray;
-            //        int LinkCount = links.Count;
-            //        for (int k=0; k < LinkCount; k++)
-            //        {
-            //            string Url = links[k]["url"].ToString();
-            //            this.rtbBills.AppendText("url = " + Url + "\n");
-            //        }
-
-            //    }
-            //}
+ 
             string Msg = OpenStateClientLib.OpenStateClient.DisplayOneBill(bill, "Texas", "");
             rtbBills.AppendText(Msg);
         }
@@ -107,8 +65,7 @@ namespace OpenStatesGraphCS
             cli = new OpenStateClientLib.OpenStateClient();
             var resultsJL = await cli.GetStateLegesAsync("Texas");
             string s = resultsJL.Data.ToString();
-            //rtbResults.Clear();
-            //rtbResults.AppendText(s);
+     
 
             OpenStateClientLib.LegeSet lset =  await cli.GetStatePeopleAsync("Texas");
             string ss = lset.SummarizeLeges();
@@ -148,9 +105,7 @@ namespace OpenStatesGraphCS
             OpenStateClientLib.OpenStateClient cli;
             cli = new OpenStateClientLib.OpenStateClient();
 
-            string Cursor = "";
- 
-            // var resultsP = await cli.QueryPeopleByOrgIDAllAsync("ocd-organization/ddf820b5-5246-46b3-a807-99b5914ad39f", Cursor, ExtraGuiAction);
+            string Cursor = "";          
             var resultsP = await cli.GetPeopleByOrgIDAllAsync("ocd-organization/cabf1716-c572-406a-bfdd-1917c11ac629", Cursor, ExtraGuiAction);
         }
 
@@ -333,8 +288,6 @@ namespace OpenStatesGraphCS
             await cli.GetBillsFilteredAsync("Texas", SinceDate, System.DateTime.MaxValue, Subjects, null, ExtraGuiActionBill);
 
   
-        }
-
-        // 
+        }        
     }
 }
