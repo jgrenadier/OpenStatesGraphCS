@@ -10,7 +10,7 @@ using System.Web;
 namespace LuisBot.Dialogs
 {
     /// <summary>
-    /// utulities to handle our application specific LUIS data 
+    /// utilities to handle our application specific LUIS data 
     /// </summary>
     public class BillDialogUtil
     {
@@ -236,7 +236,7 @@ namespace LuisBot.Dialogs
         /// <summary>
         /// provide a query string with entities removed.
         /// This is not currently used.  
-        /// The purpose was to helo isolate the subject text that
+        /// The purpose was to help isolate the subject text that
         /// the user is interested in searching for.  
         /// For now, the user should put double quotes around
         /// the subject text for searching.

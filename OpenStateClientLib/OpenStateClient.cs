@@ -1197,7 +1197,7 @@ query StateLeges {
                 {
                     VoteCount = Votes.Count;
                 }
-                if (VoteCount > 0)
+                if (VoteCount > 0 && (curvoter != null && curvoter.ToLower() != "none"))
                 {
                     //Msg += ("votes = " + Votes.ToString() + "\n");
                     for (int i = 0; i < VoteCount; i++)
@@ -1211,7 +1211,7 @@ query StateLeges {
                         for (int j = 0; j < m; j++)
                         {
                             string VoterName = Votes3[j]["voterName"].ToString();
-                            if (curvoter == null || curvoter == "" || VoterName.ToLower().Contains(CurVoterL))
+                            if (curvoter == null || curvoter == "" || curvoter.ToLower() == "all" || VoterName.ToLower().Contains(CurVoterL))
                             { 
                                 string Option = Votes3[j]["option"].ToString();
                                 string Msg2 = $" {VoterName}, Vote = {Option}\n";

@@ -32,7 +32,8 @@ namespace Microsoft.Bot.Sample.LuisBot
             Msg += "Find \"tax\" bills\n";
             Msg += "Legislators\n";
             Msg += "Legislator \"Foghorn\"\n";
-
+            Msg += "Legislator \"all\"\n";
+            Msg += "Legislator \"none\"\n";
             await context.PostAsync(Msg);
             context.Wait(MessageReceived);
         }
@@ -223,10 +224,14 @@ namespace Microsoft.Bot.Sample.LuisBot
         {
             string state = BillDialogUtil.GetEntityState(result);
 
-            if (state != null && state != "")
+            if (state != null && state != "" && state != "nothing")
             {
                 
                 Continuity.SetSavedState(context, state);
+            }
+            else
+            {
+                state = Continuity.GetSavedState(context);
             }
             await context.PostAsync("All hail the great state of " + state + ".");
             context.Wait(MessageReceived);
@@ -258,7 +263,12 @@ namespace Microsoft.Bot.Sample.LuisBot
             string Summary = lset.SummarizeLeges();
 
             if (SearchTerm == null || SearchTerm == "")
-            { 
+            {
+                string OldLegislator = Continuity.GetSavedLegislator(context);
+                if (OldLegislator != null && OldLegislator != "")
+                {
+                    Summary += "Selected Legislator is " + OldLegislator + "\n";
+                }
                 await context.PostAsync(Summary);
                 context.Wait(MessageReceived);
                 return;
@@ -268,28 +278,47 @@ namespace Microsoft.Bot.Sample.LuisBot
             {              
                 Continuity.SetSavedLegislator(context, SearchTerm);
                 string Msg;
-                int NumFound = lset.FindLegislator(SearchTerm, out Msg);
-                if (NumFound == 1)
+                if (SearchTerm.ToLower() == "all")
                 {
-                    string Msg2 = $"We will show the votes made by this legislator\nwhen you search for bills.";
-                    Msg += ("\n" + Msg2);
+                    string Msg2 = $"We will show the votes made by all legislators\nwhen you search for bills.";
+                    Msg = Msg2;
                     await context.PostAsync(Msg);
                     context.Wait(MessageReceived);
                     return;
                 }
-                if (NumFound >= 0)
+                else if (SearchTerm.ToLower() == "none")
                 {
-                    string Msg2 = $"We will show the votes made by these legislators\nwhen you search for bills.";
-                    Msg += ("\n" + Msg2);
+                    string Msg2 = $"We will show no votes made by legislators\nwhen you search for bills.";
+                    Msg = Msg2;
                     await context.PostAsync(Msg);
                     context.Wait(MessageReceived);
                     return;
                 }
                 else
                 {
-                    await context.PostAsync(Msg);
-                    context.Wait(MessageReceived);
-                    return;
+                    int NumFound = lset.FindLegislator(SearchTerm, out Msg);
+                    if (NumFound == 1)
+                    {
+                        string Msg2 = $"We will show the votes made by this legislator\nwhen you search for bills.";
+                        Msg += ("\n" + Msg2);
+                        await context.PostAsync(Msg);
+                        context.Wait(MessageReceived);
+                        return;
+                    }
+                    if (NumFound >= 0)
+                    {
+                        string Msg2 = $"We will show the votes made by these legislators\nwhen you search for bills.";
+                        Msg += ("\n" + Msg2);
+                        await context.PostAsync(Msg);
+                        context.Wait(MessageReceived);
+                        return;
+                    }
+                    else
+                    {
+                        await context.PostAsync(Msg);
+                        context.Wait(MessageReceived);
+                        return;
+                    }
                 }
             }
  
