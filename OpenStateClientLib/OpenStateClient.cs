@@ -1214,7 +1214,7 @@ query StateLeges {
                             if (curvoter == null || curvoter == "" || curvoter.ToLower() == "all" || VoterName.ToLower().Contains(CurVoterL))
                             { 
                                 string Option = Votes3[j]["option"].ToString();
-                                string Msg2 = $" {VoterName}, Vote = {Option}\n";
+                                string Msg2 = $" {VoterName} Vote = {Option}.\n";
                                 Msg += Msg2;
                             }
                         }

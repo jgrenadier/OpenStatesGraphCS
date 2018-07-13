@@ -19,6 +19,14 @@ namespace Microsoft.Bot.Sample.LuisBot
         {
         }
 
+        private async Task PostIt(IDialogContext context, string msg)
+        {
+            //
+            // fix string so that the carriage return shows up in Slack.
+            string Msg2 = msg.Replace("\n", "\n\n");
+            await context.PostAsync(Msg2);
+        }
+
         private async Task ShowHelp(IDialogContext context, LuisResult result)
         {
             string Msg = "";
@@ -34,7 +42,8 @@ namespace Microsoft.Bot.Sample.LuisBot
             Msg += "Legislator \"Foghorn\"\n";
             Msg += "Legislator \"all\"\n";
             Msg += "Legislator \"none\"\n";
-            await context.PostAsync(Msg);
+            // await context.PostAsync(Msg);
+            await PostIt(context, Msg);
             context.Wait(MessageReceived);
         }
 
@@ -240,6 +249,10 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("Legislator")]
         public async Task LegislatorIntent(IDialogContext context, LuisResult result)
         {
+
+            // await context.PostAsync("result.Query = " + result.Query);
+            // context.Wait(MessageReceived);
+
             string State = Continuity.GetSavedState(context);
             if (State == null || State == "")
             {
@@ -251,7 +264,6 @@ namespace Microsoft.Bot.Sample.LuisBot
 
 
             OpenStateClientLib.OpenStateClient cli = new OpenStateClientLib.OpenStateClient();
-
             
             OpenStateClientLib.LegeSet lset = await cli.GetStatePeopleAsync(State);
             if (lset == null)
@@ -267,9 +279,10 @@ namespace Microsoft.Bot.Sample.LuisBot
                 string OldLegislator = Continuity.GetSavedLegislator(context);
                 if (OldLegislator != null && OldLegislator != "")
                 {
-                    Summary += "Selected Legislator is " + OldLegislator + "\n";
+                    Summary += "Selected Legislator is " + OldLegislator + "!\n";
                 }
-                await context.PostAsync(Summary);
+                // await context.PostAsync(Summary);
+                await PostIt(context, Summary);
                 context.Wait(MessageReceived);
                 return;
             }

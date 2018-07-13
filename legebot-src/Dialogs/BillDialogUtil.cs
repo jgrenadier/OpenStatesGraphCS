@@ -283,25 +283,29 @@ namespace LuisBot.Dialogs
             try
             {
                 string s = result.Query;
-                char[] Quotes = "\"'".ToCharArray();
-                int Start = s.IndexOfAny(Quotes);
-                int End = s.LastIndexOfAny(Quotes);
-                int Len = (End - Start) - 1;
-                if (Start >= 0 && End >= 0 && Start != End && Len > 0)
+                if (s.Contains("\""))
                 {
-                    string s2 = s.Substring(Start + 1, Len);
-                    return s2;
+                    char[] Quotes = "\"'".ToCharArray();
+                    int Start = s.IndexOfAny(Quotes);
+                    int End = s.LastIndexOfAny(Quotes);
+                    int Len = (End - Start) - 1;
+                    if (Start >= 0 && End >= 0 && Start != End && Len > 0)
+                    {
+                        string s2 = s.Substring(Start + 1, Len);
+                        return s2;
+                    }
                 }
-                //string s3 = BillDialogUtil.StripEntities(result);
-                //int ii = s3.ToLower().IndexOf("about");
-                //if (ii >= 0)
-                //{
-                //    string s4 = s3.Substring(ii + 5);
-                //    int iNextBlank = s4.IndexOf(" ");
-                //    s4 = s4.Substring(0, iNextBlank);
-                //    return s4;
-                //}
-                //return s3;
+                else
+                {
+                    int Start = s.LastIndexOf(" ");
+                    if (Start > 0)
+                    {
+                        string s2 = s.Substring(Start + 1);
+                        return s2;
+                    }
+                }
+     
+       
             }
             catch (System.Exception)
             {
